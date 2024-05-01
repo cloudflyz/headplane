@@ -25,7 +25,7 @@ export default function Delete({ machine, fetcher, state }: DeleteProperties) {
 							your network. To re-add it, you will need to
 							reauthenticate to your tailnet from the device.
 						</Dialog.Text>
-						<fetcher.Form>
+						<fetcher.Form method='POST'>
 							<input type='hidden' name='_method' value='delete'/>
 							<input type='hidden' name='id' value={machine.id}/>
 							<div className='mt-6 flex justify-end gap-2 mt-6'>
@@ -39,7 +39,9 @@ export default function Delete({ machine, fetcher, state }: DeleteProperties) {
 									variant='confirm'
 									className={cn(
 										'bg-red-500 hover:border-red-700',
-										'pressed:bg-red-600'
+										'dark:bg-red-600 dark:hover:border-red-700',
+										'pressed:bg-red-600 hover:bg-red-600',
+										'text-white dark:text-white'
 									)}
 									onPress={close}
 								>
