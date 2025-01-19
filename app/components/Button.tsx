@@ -1,38 +1,40 @@
 import type { Dispatch, SetStateAction } from 'react';
+import React, { useRef } from 'react';
 import { Button as AriaButton } from 'react-aria-components';
+import { useButton } from 'react-aria';
 import { cn } from '~/utils/cn';
 
-type Props = Parameters<typeof AriaButton>[0] & {
-	readonly control?: [boolean, Dispatch<SetStateAction<boolean>>];
-	readonly variant?: 'heavy' | 'light';
-};
+export interface ButtonProps extends React.HTMLProps<HTMLButtonElement> {
+	variant?: 'heavy'
+	isDisabled?: boolean
+	children?: React.ReactNode
+}
 
-export default function Button(props: Props) {
+export default function Button({ variant = 'light', ...props }: Props) {
+	const ref = useRef<HTMLButtonElement | null>(null);
+	const { buttonProps } = useButton(props, ref);
+
 	return (
-		<AriaButton
-			{...props}
+		<button
+			ref={ref}
+			{...buttonProps}
 			className={cn(
-				'w-fit text-sm rounded-lg px-4 py-2',
-				props.variant === 'heavy'
-					? 'bg-main-700 dark:bg-main-800'
-					: 'bg-main-200 dark:bg-main-700/30',
-				props.variant === 'heavy'
-					? 'hover:bg-main-800 dark:hover:bg-main-700'
-					: 'hover:bg-main-300 dark:hover:bg-main-600/30',
-				props.variant === 'heavy'
-					? 'text-white'
-					: 'text-ui-700 dark:text-ui-300',
-				props.isDisabled && 'opacity-50 cursor-not-allowed',
+				'w-fit text-sm rounded-xl px-3 py-2',
+				'focus:outline-none focus:ring',
+				props.isDisabled && 'opacity-60 cursor-not-allowed',
+				...(variant === 'heavy'
+					? [
+						'bg-headplane-900 dark:bg-headplane-50 font-semibold',
+						'hover:bg-headplane-900/90 dark:hover:bg-headplane-50/90',
+						'text-headplane-200 dark:text-headplane-800'
+					] : [
+						'bg-headplane-100 dark:bg-headplane-700/30 font-medium',
+						'hover:bg-headplane-200/90 dark:hover:bg-headplane-800/30',
+					]),
 				props.className,
 			)}
-			// If control is passed, set the state value
-			onPress={
-				props.control
-					? () => {
-							props.control?.[1](true);
-						}
-					: props.onPress
-			}
-		/>
-	);
+		>
+			{props.children}
+		</button>
+	)
 }
