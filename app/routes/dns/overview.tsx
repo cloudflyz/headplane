@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import type { ActionFunctionArgs } from "react-router";
 import { useLoaderData } from "react-router";
 
@@ -50,6 +51,7 @@ export async function action(data: ActionFunctionArgs) {
 
 export default function Page() {
   const data = useLoaderData<typeof loader>();
+  const { t } = useTranslation();
 
   const allNs: Record<string, string[]> = {};
   for (const key of Object.keys(data.splitDns)) {
@@ -61,16 +63,8 @@ export default function Page() {
 
   return (
     <div className="flex max-w-(--breakpoint-lg) flex-col gap-16">
-      {data.writable ? undefined : (
-        <Notice>
-          The Headscale configuration is read-only. You cannot make changes to the configuration
-        </Notice>
-      )}
-      {data.access ? undefined : (
-        <Notice>
-          Your permissions do not allow you to modify the DNS settings for this tailnet.
-        </Notice>
-      )}
+      {data.writable ? undefined : <Notice>{t("dns.readOnlyNotice")}</Notice>}
+      {data.access ? undefined : <Notice>{t("dns.noAccessNotice")}</Notice>}
       <RenameTailnet isDisabled={isDisabled} name={data.baseDomain} />
       <ManageNS isDisabled={isDisabled} nameservers={allNs} overrideLocalDns={data.overrideDns} />
       <ManageRecords isDisabled={isDisabled} records={data.extraRecords} />
@@ -81,15 +75,14 @@ export default function Page() {
       />
 
       <div className="flex w-full flex-col sm:w-2/3">
-        <h1 className="mb-4 text-2xl font-medium">Magic DNS</h1>
+        <h1 className="mb-4 text-2xl font-medium">{t("dns.magicDns")}</h1>
         <p className="mb-4">
-          Automatically register domain names for each device on the tailnet. Devices will be
-          accessible at{" "}
+          {t("dns.magicDnsDesc")}{" "}
           <Code>
             [device].
             {data.baseDomain}
           </Code>{" "}
-          when Magic DNS is enabled.
+          {t("dns.magicDnsDescSuffix")}
         </p>
         <ToggleMagic isDisabled={isDisabled} isEnabled={data.magicDns} />
       </div>
@@ -98,5 +91,6 @@ export default function Page() {
 }
 
 export function ErrorBoundary({ error }: { error: unknown }) {
-  return <PageError error={error} page="DNS" />;
+  const { t } = useTranslation();
+  return <PageError error={error} page={t("dns.title")} />;
 }

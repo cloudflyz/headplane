@@ -3,6 +3,7 @@ import CodeMirror from "@uiw/react-codemirror";
 import { BookCopy, CircleX } from "lucide-react";
 import Merge from "react-codemirror-merge";
 import { ErrorBoundary } from "react-error-boundary";
+import { useTranslation } from "react-i18next";
 
 import { headplaneTheme } from "./theme";
 
@@ -13,13 +14,14 @@ interface EditorProps {
 }
 
 export function Editor(props: EditorProps) {
+  const { t } = useTranslation();
   return (
     <div className="text-sm">
       <ErrorBoundary
         fallback={
           <div className="flex flex-col items-center gap-2.5 py-8">
             <CircleX />
-            <p className="text-lg font-semibold">Failed to load the editor.</p>
+            <p className="text-lg font-semibold">{t("acls.editorLoadFailed")}</p>
           </div>
         }
       >
@@ -44,12 +46,13 @@ interface DifferProps {
 }
 
 export function Differ(props: DifferProps) {
+  const { t } = useTranslation();
   return (
     <div className="text-sm">
       {props.left === props.right ? (
         <div className="flex flex-col items-center gap-2.5 py-8">
           <BookCopy />
-          <p className="text-lg font-semibold">No changes</p>
+          <p className="text-lg font-semibold">{t("acls.noChanges")}</p>
         </div>
       ) : (
         <div className="h-editor">
@@ -57,7 +60,7 @@ export function Differ(props: DifferProps) {
             fallback={
               <div className="flex flex-col items-center gap-2.5 py-8">
                 <CircleX />
-                <p className="text-lg font-semibold">Failed to load the editor.</p>
+                <p className="text-lg font-semibold">{t("acls.editorLoadFailed")}</p>
               </div>
             }
           >

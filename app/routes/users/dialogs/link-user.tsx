@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 import Dialog, { DialogPanel } from "~/components/dialog";
 import Notice from "~/components/notice";
 import Text from "~/components/text";
@@ -21,16 +23,15 @@ export default function LinkUser({
   isOpen,
   setIsOpen,
 }: LinkUserProps) {
+  const { t } = useTranslation();
+
   return (
     <Dialog isOpen={isOpen} onOpenChange={setIsOpen}>
       <DialogPanel>
-        <Title>Link Headscale user for {displayName}</Title>
-        <Text className="mb-6">
-          Select which Headscale user this identity should be linked to. This controls which
-          machines they can manage and enables self-service features.
-        </Text>
+        <Title>{t("users.linkUserTitle", { name: displayName })}</Title>
+        <Text className="mb-6">{t("users.linkUserDesc")}</Text>
         {headscaleUsers.length === 0 ? (
-          <Notice>All Headscale users are already linked to other accounts.</Notice>
+          <Notice>{t("users.allUsersLinked")}</Notice>
         ) : (
           <>
             <input name="action_id" type="hidden" value="link_user" />
@@ -45,11 +46,11 @@ export default function LinkUser({
               name="headscale_user_id"
               required
             >
-              <option value="">Select a Headscale user...</option>
+              <option value="">{t("users.selectHeadscaleUser")}</option>
               {headscaleUsers.map((u) => (
                 <option key={u.id} value={u.id}>
                   {u.name}
-                  {u.id === currentLink ? " (current)" : ""}
+                  {u.id === currentLink ? ` ${t("users.current")}` : ""}
                 </option>
               ))}
             </select>

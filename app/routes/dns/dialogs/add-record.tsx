@@ -1,7 +1,7 @@
 import { type } from "arktype";
+import { useTranslation } from "react-i18next";
 
 import Button from "~/components/button";
-import Code from "~/components/code";
 import Dialog, { DialogPanel } from "~/components/dialog";
 import Input from "~/components/input";
 import Select from "~/components/select";
@@ -20,6 +20,7 @@ interface Props {
 }
 
 export default function AddRecord({ records }: Props) {
+  const { t } = useTranslation();
   const form = useForm({
     schema: recordSchema,
     defaultValues: { record_type: "A" },
@@ -31,8 +32,8 @@ export default function AddRecord({ records }: Props) {
       const lookup = records.find((r) => r.name === name);
       if (lookup?.value === ip) {
         return {
-          record_name: "This record already exists.",
-          record_value: "This record already exists.",
+          record_name: t("dns.recordExists"),
+          record_value: t("dns.recordExists"),
         };
       }
 
@@ -48,15 +49,15 @@ export default function AddRecord({ records }: Props) {
 
   return (
     <Dialog>
-      <Button>Add DNS record</Button>
+      <Button>{t("dns.addRecord")}</Button>
       <DialogPanel onSubmit={() => form.reset()}>
-        <Title>Add DNS record</Title>
-        <Text>Enter the domain and IP address for the new DNS record.</Text>
+        <Title>{t("dns.addRecord")}</Title>
+        <Text>{t("dns.addRecordDesc")}</Text>
         <div className="mt-4 flex flex-col gap-2">
           <input type="hidden" name="action_id" value="add_record" />
           <Select
             required
-            label="Record Type"
+            label={t("dns.recordType")}
             name="record_type"
             defaultValue={recordType}
             onValueChange={(v) => {
@@ -70,20 +71,17 @@ export default function AddRecord({ records }: Props) {
           <Input
             {...form.field("record_name")}
             required
-            label="Domain"
+            label={t("dns.domain")}
             placeholder="test.example.com"
           />
           <Input
             {...form.field("record_value")}
             required
-            label="IP Address"
+            label={t("dns.ipAddress")}
             placeholder={recordType === "AAAA" ? "2001:db8::ff00:42:8329" : "101.101.101.101"}
           />
           {isDuplicate ? (
-            <p className="text-sm opacity-50">
-              A record with the domain name <Code>{name}</Code> and IP address <Code>{ip}</Code>{" "}
-              already exists.
-            </p>
+            <p className="text-sm opacity-50">{t("dns.recordExistsDesc", { name, ip })}</p>
           ) : undefined}
         </div>
       </DialogPanel>

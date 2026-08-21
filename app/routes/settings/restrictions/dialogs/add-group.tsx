@@ -1,4 +1,5 @@
 import { type } from "arktype";
+import { useTranslation } from "react-i18next";
 
 import Button from "~/components/button";
 import Dialog, { DialogPanel } from "~/components/dialog";
@@ -17,6 +18,7 @@ interface AddGroupProps {
 }
 
 export default function AddGroup({ groups, isDisabled }: AddGroupProps) {
+  const { t } = useTranslation();
   const form = useForm({
     schema: groupSchema,
     validate: (values) => {
@@ -24,7 +26,7 @@ export default function AddGroup({ groups, isDisabled }: AddGroupProps) {
       if (group.length === 0) return undefined;
 
       if (groups.includes(group)) {
-        return { group: "This group already exists in the list." };
+        return { group: t("restrictions.groupExists") };
       }
 
       return undefined;
@@ -33,18 +35,16 @@ export default function AddGroup({ groups, isDisabled }: AddGroupProps) {
 
   return (
     <Dialog>
-      <Button disabled={isDisabled}>Add group</Button>
+      <Button disabled={isDisabled}>{t("restrictions.addGroup")}</Button>
       <DialogPanel>
-        <Title>Add group</Title>
-        <Text className="mb-4">
-          Add this group to a list of allowed groups that can authenticate with Headscale via OIDC.
-        </Text>
+        <Title>{t("restrictions.addGroup")}</Title>
+        <Text className="mb-4">{t("restrictions.addGroupDesc")}</Text>
         <input name="action_id" type="hidden" value="add_group" />
         <Input
           {...form.field("group")}
-          description="The group to allow for OIDC authentication."
+          description={t("restrictions.groupDesc")}
           required
-          label="Group"
+          label={t("restrictions.group")}
           placeholder="admin"
         />
       </DialogPanel>

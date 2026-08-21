@@ -1,4 +1,5 @@
 import { Building2, House } from "lucide-react";
+import { Trans, useTranslation } from "react-i18next";
 
 import Link from "~/components/link";
 import cn from "~/utils/cn";
@@ -11,6 +12,8 @@ interface ManageBannerProps {
 }
 
 export default function ManageBanner({ oidc, isDisabled }: ManageBannerProps) {
+  const { t } = useTranslation();
+
   return (
     <div
       className={cn(
@@ -22,20 +25,27 @@ export default function ManageBanner({ oidc, isDisabled }: ManageBannerProps) {
         {oidc ? <Building2 className="h-5 w-5 shrink-0" /> : <House className="h-5 w-5 shrink-0" />}
         <p className="text-sm text-mist-600 dark:text-mist-300">
           {oidc ? (
-            <>
-              Users are managed through your{" "}
-              <Link external styled to={oidc.issuer}>
-                OIDC provider
-              </Link>
-              .
-            </>
+            <Trans
+              components={{
+                link: (
+                  <Link external styled to={oidc.issuer}>
+                    {t("users.oidcProvider")}
+                  </Link>
+                ),
+              }}
+              i18nKey="users.managedViaOidc"
+            />
           ) : (
-            <>
-              Users are managed locally.{" "}
-              <Link styled to="https://headscale.net/stable/ref/oidc">
-                Set up OIDC
-              </Link>
-            </>
+            <Trans
+              components={{
+                link: (
+                  <Link styled to="https://headscale.net/stable/ref/oidc">
+                    {t("users.setupOidc")}
+                  </Link>
+                ),
+              }}
+              i18nKey="users.managedLocally"
+            />
           )}
         </p>
       </div>

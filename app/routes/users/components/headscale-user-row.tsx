@@ -1,4 +1,5 @@
 import { CircleUser } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 import StatusCircle from "~/components/status-circle";
 import cn from "~/utils/cn";
@@ -12,6 +13,7 @@ interface HeadscaleUserRowProps {
 }
 
 export default function HeadscaleUserRow({ user, writable }: HeadscaleUserRowProps) {
+  const { t } = useTranslation();
   const isOnline = user.machines.some((machine) => machine.online);
   const lastSeen = user.machines.reduce(
     (acc, machine) => Math.max(acc, new Date(machine.lastSeen).getTime()),
@@ -49,11 +51,11 @@ export default function HeadscaleUserRow({ user, writable }: HeadscaleUserRowPro
           >
             <StatusCircle className="h-4 w-4" isOnline={isOnline} />
             <p suppressHydrationWarning>
-              {isOnline ? "Connected" : new Date(lastSeen).toLocaleString()}
+              {isOnline ? t("common.connected") : new Date(lastSeen).toLocaleString()}
             </p>
           </span>
         ) : (
-          <p className="text-sm text-mist-600 dark:text-mist-300">No machines</p>
+          <p className="text-sm text-mist-600 dark:text-mist-300">{t("users.noMachines")}</p>
         )}
       </td>
       <td className="py-2 pr-0.5">{writable ? <HeadscaleUserMenu user={user} /> : null}</td>

@@ -1,7 +1,7 @@
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
-import Link from "~/components/link";
 import cn from "~/utils/cn";
 
 export interface FooterProps {
@@ -10,6 +10,7 @@ export interface FooterProps {
 }
 
 export default function Footer({ isDebug, baseUrl }: FooterProps) {
+  const { t } = useTranslation();
   const [urlVisible, setUrlVisible] = useState(false);
 
   return (
@@ -21,13 +22,7 @@ export default function Footer({ isDebug, baseUrl }: FooterProps) {
       )}
     >
       <div className="container flex items-center justify-between py-2">
-        <p className="text-xs">
-          Headplane is free and open-source. Please consider{" "}
-          <Link external styled to="https://tale.me/sponsor">
-            sponsoring
-          </Link>{" "}
-          to support development.
-        </p>
+        <p className="text-xs">{t("footer.sponsor")}</p>
         <div className="flex items-center gap-2 text-xs">
           {isDebug && (
             <span

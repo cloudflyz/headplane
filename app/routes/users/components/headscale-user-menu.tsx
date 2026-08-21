@@ -1,5 +1,6 @@
 import { Ellipsis } from "lucide-react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { Menu, MenuContent, MenuItem, MenuSeparator, MenuTrigger } from "~/components/menu";
 
@@ -14,6 +15,7 @@ interface HeadscaleUserMenuProps {
 type Modal = "rename" | "delete" | null;
 
 export default function HeadscaleUserMenu({ user }: HeadscaleUserMenuProps) {
+  const { t } = useTranslation();
   const [modal, setModal] = useState<Modal>(null);
 
   // Headscale-managed OIDC users cannot be renamed via the API.
@@ -46,10 +48,10 @@ export default function HeadscaleUserMenu({ user }: HeadscaleUserMenuProps) {
           <Ellipsis className="h-5" />
         </MenuTrigger>
         <MenuContent>
-          {canRename && <MenuItem onClick={() => setModal("rename")}>Rename</MenuItem>}
+          {canRename && <MenuItem onClick={() => setModal("rename")}>{t("users.rename")}</MenuItem>}
           {canRename && <MenuSeparator />}
           <MenuItem variant="danger" onClick={() => setModal("delete")}>
-            Delete
+            {t("common.delete")}
           </MenuItem>
         </MenuContent>
       </Menu>

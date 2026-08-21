@@ -1,4 +1,5 @@
 import { type } from "arktype";
+import { useTranslation } from "react-i18next";
 
 import Button from "~/components/button";
 import Dialog, { DialogPanel } from "~/components/dialog";
@@ -17,6 +18,7 @@ interface AddUserProps {
 }
 
 export default function AddUser({ users, isDisabled }: AddUserProps) {
+  const { t } = useTranslation();
   const form = useForm({
     schema: userSchema,
     validate: (values) => {
@@ -24,7 +26,7 @@ export default function AddUser({ users, isDisabled }: AddUserProps) {
       if (user.length === 0) return undefined;
 
       if (users.includes(user)) {
-        return { user: "This user already exists in the list." };
+        return { user: t("restrictions.userExists") };
       }
 
       return undefined;
@@ -33,18 +35,16 @@ export default function AddUser({ users, isDisabled }: AddUserProps) {
 
   return (
     <Dialog>
-      <Button disabled={isDisabled}>Add user</Button>
+      <Button disabled={isDisabled}>{t("restrictions.addUser")}</Button>
       <DialogPanel>
-        <Title>Add user</Title>
-        <Text className="mb-4">
-          Add this user to a list of allowed users that can authenticate with Headscale via OIDC.
-        </Text>
+        <Title>{t("restrictions.addUser")}</Title>
+        <Text className="mb-4">{t("restrictions.addUserDesc")}</Text>
         <input name="action_id" type="hidden" value="add_user" />
         <Input
           {...form.field("user")}
-          description="The user to allow for OIDC authentication."
+          description={t("restrictions.userDesc")}
           required
-          label="User"
+          label={t("restrictions.user")}
           placeholder="john_doe"
         />
       </DialogPanel>

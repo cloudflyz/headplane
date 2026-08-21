@@ -1,5 +1,6 @@
 import { Cog, Ellipsis, SquareTerminal } from "lucide-react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useSubmit } from "react-router";
 
 import Button from "~/components/button";
@@ -38,6 +39,7 @@ export default function MachineMenu({
   supportsNodeOwnerChange,
   supportsDisablingKeyExpiry,
 }: MenuProps) {
+  const { t } = useTranslation();
   const submit = useSubmit();
   const [modal, setModal] = useState<Modal>(null);
   const supportsTailscaleSSH = node.hostInfo?.sshHostKeys && node.hostInfo?.sshHostKeys.length > 0;
@@ -152,14 +154,14 @@ export default function MachineMenu({
           {isFullButton ? (
             <>
               <Cog className="h-5" />
-              <p>Machine Settings</p>
+              <p>{t("machine.machineSettings")}</p>
             </>
           ) : (
             <Ellipsis className="h-5" />
           )}
         </MenuTrigger>
         <MenuContent>
-          <MenuItem onClick={() => setModal("rename")}>Edit machine name</MenuItem>
+          <MenuItem onClick={() => setModal("rename")}>{t("machine.editMachineName")}</MenuItem>
           {supportsDisablingKeyExpiry && (
             <MenuItem
               onClick={() =>
@@ -173,22 +175,24 @@ export default function MachineMenu({
                 )
               }
             >
-              {isNoExpiry(node.expiry) ? "Enable" : "Disable"} key expiry
+              {isNoExpiry(node.expiry)
+                ? t("machine.enableKeyExpiry")
+                : t("machine.disableKeyExpiry")}
             </MenuItem>
           )}
-          <MenuItem onClick={() => setModal("routes")}>Edit route settings</MenuItem>
-          <MenuItem onClick={() => setModal("tags")}>Edit ACL tags</MenuItem>
+          <MenuItem onClick={() => setModal("routes")}>{t("machine.editRouteSettings")}</MenuItem>
+          <MenuItem onClick={() => setModal("tags")}>{t("machine.editAclTags")}</MenuItem>
           {supportsNodeOwnerChange && (
-            <MenuItem onClick={() => setModal("move")}>Change owner</MenuItem>
+            <MenuItem onClick={() => setModal("move")}>{t("machine.changeOwner")}</MenuItem>
           )}
           <MenuSeparator />
           {!isNoExpiry(node.expiry) && (
             <MenuItem variant="danger" disabled={node.expired} onClick={() => setModal("expire")}>
-              Expire
+              {t("machine.expireMachine")}
             </MenuItem>
           )}
           <MenuItem variant="danger" onClick={() => setModal("remove")}>
-            Remove
+            {t("machine.removeMachine")}
           </MenuItem>
         </MenuContent>
       </Menu>

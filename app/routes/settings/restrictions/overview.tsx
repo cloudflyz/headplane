@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { data } from "react-router";
 
 import Link from "~/components/link";
@@ -45,6 +46,7 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 export const action = restrictionAction;
 
 export default function Page({ loaderData: { access, writable, settings } }: Route.ComponentProps) {
+  const { t } = useTranslation();
   const isDisabled = writable ? !access : true;
 
   return (
@@ -52,30 +54,24 @@ export default function Page({ loaderData: { access, writable, settings } }: Rou
       <div className="flex w-full flex-col sm:w-2/3">
         <p className="text-md mb-4">
           <Link className="font-medium" to="/settings">
-            Settings
+            {t("restrictions.back")}
           </Link>
-          <span className="mx-2">/</span> Authentication Restrictions
+          <span className="mx-2">/</span> {t("restrictions.title")}
         </p>
         {!access ? (
-          <Notice title="Authentication permissions restricted" variant="warning">
-            You do not have the necessary permissions to edit the Authentication Restrictions
-            settings. Please contact your administrator to request access or to make changes to
-            these settings.
+          <Notice title={t("restrictions.permissionsRestricted")} variant="warning">
+            {t("restrictions.permissionsRestrictedDesc")}
           </Notice>
         ) : !writable ? (
-          <Notice title="Configuration Locked" variant="error">
-            The Headscale configuration file is not editable through the web interface. Please
-            ensure that you have correctly given Headplane write access to the file.
+          <Notice title={t("restrictions.configLocked")} variant="error">
+            {t("restrictions.configLockedDesc")}
           </Notice>
         ) : undefined}
-        <h1 className="mt-4 mb-2 text-2xl font-medium">Authentication Restrictions</h1>
+        <h1 className="mt-4 mb-2 text-2xl font-medium">{t("restrictions.title")}</h1>
         <p>
-          Headscale supports restricting OIDC authentication to only allow certain email domains,
-          groups, or users to authenticate. This can be used to limit access to your Tailnet to only
-          certain users or groups and Headplane will also respect these settings when
-          authenticating.{" "}
+          {t("restrictions.description")}
           <Link external styled to="https://headscale.net/stable/ref/oidc/#basic-configuration">
-            Learn More
+            {t("restrictions.learnMore")}
           </Link>
         </p>
       </div>

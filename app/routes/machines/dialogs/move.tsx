@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import Dialog, { DialogPanel } from "~/components/dialog";
 import Select from "~/components/select";
@@ -15,25 +16,26 @@ interface MoveProps {
 }
 
 export default function Move({ machine, users, isOpen, setIsOpen }: MoveProps) {
+  const { t } = useTranslation();
   const [userId, setUserId] = useState<string | null>(machine.user?.id ?? null);
 
   return (
     <Dialog isOpen={isOpen} onOpenChange={setIsOpen}>
       <DialogPanel isDisabled={userId === machine.user?.id}>
-        <Title>Change the owner of {machine.givenName}</Title>
-        <Text>The owner of the machine is the user associated with it.</Text>
+        <Title>{t("machine.changeOwnerTitle", { name: machine.givenName })}</Title>
+        <Text>{t("machine.changeOwnerDesc")}</Text>
         <input name="action_id" type="hidden" value="reassign" />
         <input name="node_id" type="hidden" value={machine.id} />
         <input name="user_id" type="hidden" value={userId?.toString()} />
         <Select
           defaultValue={machine.user?.id}
           required
-          label="Owner"
+          label={t("machines.owner")}
           name="user"
           onValueChange={(key) => {
             setUserId(key);
           }}
-          placeholder="Select a user"
+          placeholder={t("machines.selectUser")}
           items={users.map((user) => ({
             value: user.id,
             label: getUserDisplayName(user),
