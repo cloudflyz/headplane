@@ -422,6 +422,19 @@
     "add": "Add",
     "remove": "Remove"
   },
+  "auth": {
+    "welcome": "Welcome to Headplane",
+    "apiKeyInstructions": "Enter an API key to authenticate with Headplane. You can generate one by running headscale apikeys create in your terminal.",
+    "apiKey": "API Key",
+    "signIn": "Sign In",
+    "singleSignOn": "Single Sign-On",
+    "configIssue": "Configuration Issue",
+    "learnMore": "Learn more.",
+    "loggedOut": "You have been logged out",
+    "authError": "Authentication Error",
+    "ssoUnavailable": "SSO Temporarily Unavailable",
+    "configIssues": "Configuration Issue(s)"
+  },
   "machineFilters": {
     "user": "User",
     "tag": "Tag",

@@ -432,5 +432,18 @@
     "addUserDesc": "将此用户添加到允许通过 OIDC 使用 Headscale 认证的用户列表中。",
     "userDesc": "允许用于 OIDC 认证的用户。",
     "userExists": "此用户已存在于列表中。"
+  },
+  "auth": {
+    "welcome": "欢迎使用 Headplane",
+    "apiKeyInstructions": "输入 API 密钥以登录 Headplane。您可以在终端运行 headscale apikeys create 生成一个。",
+    "apiKey": "API 密钥",
+    "signIn": "登录",
+    "singleSignOn": "单点登录",
+    "configIssue": "配置问题",
+    "learnMore": "了解更多。",
+    "loggedOut": "您已退出登录",
+    "authError": "认证错误",
+    "ssoUnavailable": "SSO 暂时不可用",
+    "configIssues": "配置问题"
   }
 }

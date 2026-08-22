@@ -1,14 +1,17 @@
 import { AlertCircle } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Form, Link as RouterLink, redirect, useSearchParams } from "react-router";
 
 import Button from "~/components/button";
 import Card from "~/components/card";
 import Code from "~/components/code";
 import Input from "~/components/input";
+import LanguageSwitcher from "~/components/language-switcher";
 import Link from "~/components/link";
 import { appConfigContext, authContext, oidcContext } from "~/server/context";
 import type { OidcError, OidcService } from "~/server/oidc/provider";
+import cn from "~/utils/cn";
 import { useLiveData } from "~/utils/live-data";
 import log from "~/utils/log";
 
@@ -77,6 +80,7 @@ function logLoginOidcError(context: string, error: OidcError): void {
 }
 
 export default function Page({ loaderData, actionData }: Route.ComponentProps) {
+  const { t } = useTranslation();
   const { isCookieSecureEnabled, isOidcConnectorEnabled, oidcErrorCodes, urlState } = loaderData;
 
   const [showCookieWarning, setShowCookieWarning] = useState(false);
@@ -115,7 +119,12 @@ export default function Page({ loaderData, actionData }: Route.ComponentProps) {
   }
 
   return (
-    <div className="flex h-screen w-screen items-center justify-center">
+    <div className="relative flex h-screen w-screen items-center justify-center">
+      {/* 右上角语言切换 — 独立组件，同步官方代码时只需保留这一行 */}
+      <div className="absolute top-4 right-4">
+        <LanguageSwitcher />
+      </div>
+
       <div>
         {urlState?.startsWith("error_") ? (
           <OidcErrorNotice code={urlState} />
@@ -126,7 +135,7 @@ export default function Page({ loaderData, actionData }: Route.ComponentProps) {
         ) : showCookieWarning ? (
           <Card className="m-4 mb-4 max-w-md border border-red-500 sm:m-0 sm:mb-4">
             <div className="flex items-center justify-between gap-4">
-              <Card.Title className="text-red-500">Configuration Issue</Card.Title>
+              <Card.Title className="text-red-500">{t("auth.configIssue")}</Card.Title>
               <AlertCircle className="mb-2 h-6 w-6 text-red-500" />
             </div>
             {showCookieWarning ? (
@@ -138,26 +147,23 @@ export default function Page({ loaderData, actionData }: Route.ComponentProps) {
                   styled
                   to="https://headplane.net/configuration/common-issues#issue-logging-in-does-not-do-anything"
                 >
-                  Learn more.
+                  {t("auth.learnMore")}
                 </Link>
               </Card.Text>
             ) : undefined}
           </Card>
         ) : undefined}
         <Card className="m-4 max-w-md sm:m-0">
-          <Card.Title>Welcome to Headplane</Card.Title>
+          <Card.Title>{t("auth.welcome")}</Card.Title>
           <Form method="POST">
-            <Card.Text>
-              Enter an API key to authenticate with Headplane. You can generate one by running{" "}
-              <Code>headscale apikeys create</Code> in your terminal.
-            </Card.Text>
+            <Card.Text>{t("auth.apiKeyInstructions")}</Card.Text>
             <Input
               className="mt-8 mb-2"
               required
-              label="API Key"
+              label={t("auth.apiKey")}
               labelHidden
               name="api_key"
-              placeholder="API Key"
+              placeholder={t("auth.apiKey")}
               type="password"
             />
             {actionData?.success === false ? (
@@ -166,13 +172,13 @@ export default function Page({ loaderData, actionData }: Route.ComponentProps) {
               </Card.Text>
             ) : undefined}
             <Button className="w-full" type="submit" variant="heavy">
-              Sign In
+              {t("auth.signIn")}
             </Button>
           </Form>
           {isOidcConnectorEnabled ? (
             <RouterLink to="/oidc/start" prefetch="none" reloadDocument>
               <Button className="mt-2 w-full" disabled={oidcErrorCodes.length > 0} variant="light">
-                Single Sign-On
+                {t("auth.singleSignOn")}
               </Button>
             </RouterLink>
           ) : undefined}

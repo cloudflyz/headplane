@@ -3,7 +3,6 @@ import {
   CircleQuestionMark,
   CircleUser,
   Globe,
-  Languages,
   Lock,
   Monitor,
   Moon,
@@ -15,9 +14,9 @@ import {
 import { useTranslation } from "react-i18next";
 import { NavLink, unstable_useRoute as useRoute, useLocation, useSubmit } from "react-router";
 
+import LanguageMenuItems from "~/components/language-menu-items";
 import Link from "~/components/link";
 import { Menu, MenuContent, MenuItem, MenuSeparator, MenuTrigger } from "~/components/menu";
-import { supportedLanguages } from "~/i18n";
 import logoBg from "~/logo/dark-bg.svg";
 import logoDark from "~/logo/dark.svg";
 import logoLight from "~/logo/light.svg";
@@ -62,7 +61,7 @@ const colorSchemes = [
 }>;
 
 export default function Header({ user, access, configAvailable }: HeaderProps) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const submit = useSubmit();
   const showTabs = access.ui;
   const rootRoute = useRoute("root");
@@ -187,21 +186,8 @@ export default function Header({ user, access, configAvailable }: HeaderProps) {
                 </MenuItem>
               ))}
               <MenuSeparator />
-              {supportedLanguages.map(({ code, label }) => (
-                <MenuItem
-                  key={code}
-                  onClick={() => {
-                    i18n.changeLanguage(code);
-                    localStorage.setItem("headplane-language", code);
-                  }}
-                >
-                  <div className="flex items-center gap-x-2">
-                    <Languages className="size-4" />
-                    <span className="flex-1">{label}</span>
-                    {i18n.language === code && <Check className="size-4" />}
-                  </div>
-                </MenuItem>
-              ))}
+              {/* 语言切换菜单 — 独立组件，同步官方代码时只需保留这一行 */}
+              <LanguageMenuItems />
               <MenuSeparator />
               <MenuItem
                 variant="danger"
