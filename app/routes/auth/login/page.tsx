@@ -11,7 +11,6 @@ import LanguageSwitcher from "~/components/language-switcher";
 import Link from "~/components/link";
 import { appConfigContext, authContext, oidcContext } from "~/server/context";
 import type { OidcError, OidcService } from "~/server/oidc/provider";
-import cn from "~/utils/cn";
 import { useLiveData } from "~/utils/live-data";
 import log from "~/utils/log";
 
