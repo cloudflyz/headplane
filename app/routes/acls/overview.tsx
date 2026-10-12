@@ -14,6 +14,7 @@ import { isRouteErrorResponse, useFetcher, useRevalidator } from "react-router";
 
 import Button from "~/components/button";
 import Card from "~/components/card";
+import Code from "~/components/code";
 import Link from "~/components/link";
 import Notice from "~/components/notice";
 import PageError from "~/components/page-error";

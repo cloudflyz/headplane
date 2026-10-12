@@ -62,7 +62,8 @@
     "allMachines": "所有设备",
     "tagOwned": "标签拥有",
     "ipCopied": "已复制 IP 地址到剪贴板",
-    "registerKeyError": "请粘贴 tailscale up 显示的注册链接或完整的 hskey-authreq-... 密钥。"
+    "registerKeyError": "请粘贴 tailscale up 显示的注册链接或完整的 hskey-authreq-... 密钥。",
+    "ipCopyFailed": "复制失败，请手动复制地址。"
   },
   "machine": {
     "remove": "移除 {{name}}",
@@ -151,7 +152,9 @@
     "pcp": "PCP",
     "natPmp": "NAT-PMP",
     "nameValidation": "请使用有效的 DNS 标签：仅限小写字母、数字和连字符。必须以字母或数字开头和结尾。",
-    "tailscaleDocs": "Tailscale 文档"
+    "tailscaleDocs": "Tailscale 文档",
+    "tagsUndeclared1": "尚未在策略中的",
+    "tagsUndeclared2": "里声明，因此没有规则会匹配它们。请在"
   },
   "settings": {
     "title": "设置",
@@ -281,7 +284,8 @@
     "renameUserDesc": "为 {{name}} 输入新的用户名。更改用户名不会更新任何可能按旧用户名引用该用户的 ACL 策略。",
     "transferOwnershipTitle": "将所有权转移给 {{name}}？",
     "transferOwnershipDesc": "这将使 {{name}} 成为此 Headplane 实例的新所有者。您将被降级为管理员。此操作无法轻易撤销。",
-    "transferOwnershipNotice": "只有所有者才能转移所有权。此后，您将无法再管理所有权。"
+    "transferOwnershipNotice": "只有所有者才能转移所有权。此后，您将无法再管理所有权。",
+    "editGroups": "编辑分组"
   },
   "dns": {
     "title": "DNS",

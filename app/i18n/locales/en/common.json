@@ -62,7 +62,8 @@
     "allMachines": "All Machines",
     "tagOwned": "Tag-owned",
     "ipCopied": "Copied IP address to clipboard",
-    "registerKeyError": "Paste the registration URL or full hskey-authreq-... key from tailscale up."
+    "registerKeyError": "Paste the registration URL or full hskey-authreq-... key from tailscale up.",
+    "ipCopyFailed": "Copy failed. Please copy the address manually."
   },
   "machine": {
     "remove": "Remove {{name}}",
@@ -151,7 +152,9 @@
     "pcp": "PCP",
     "natPmp": "NAT-PMP",
     "nameValidation": "Use a valid DNS label: lowercase letters, numbers, and hyphens only. It must start and end with a letter or number.",
-    "tailscaleDocs": "Tailscale documentation"
+    "tailscaleDocs": "Tailscale documentation",
+    "tagsUndeclared1": "is/are not declared under",
+    "tagsUndeclared2": "里声明，因此没有规则会匹配它们。请在"
   },
   "settings": {
     "title": "Settings",
@@ -326,7 +329,8 @@
     "renameUserDesc": "Enter a new username for {{name}}. Renaming a user will not update any ACL policies that may reference the user by their old username.",
     "transferOwnershipTitle": "Transfer ownership to {{name}}?",
     "transferOwnershipDesc": "This will make {{name}} the new owner of this Headplane instance. You will be demoted to admin. This action cannot be easily undone.",
-    "transferOwnershipNotice": "Only the owner can transfer ownership. After this, you will no longer be able to manage ownership."
+    "transferOwnershipNotice": "Only the owner can transfer ownership. After this, you will no longer be able to manage ownership.",
+    "editGroups": "Edit groups"
   },
   "dns": {
     "title": "DNS",
