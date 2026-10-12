@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import Dialog, { DialogPanel } from "~/components/dialog";
 import Input from "~/components/input";
@@ -23,6 +24,7 @@ export default function HostDialog({
   existingNames,
   onSave,
 }: HostDialogProps) {
+  const { t } = useTranslation();
   const [draftName, setDraftName] = useState(name ?? "");
   const [draftValue, setDraftValue] = useState(value ?? "");
 
@@ -47,25 +49,25 @@ export default function HostDialog({
           setIsOpen(false);
         }}
       >
-        <Title>{name ? `Edit host ${name}` : "New host"}</Title>
+        <Title>{name ? t("acls.editHost", { name }) : t("acls.newHost")}</Title>
         <Text>
-          Hosts give a name to an IP address or CIDR range so it can be referenced from rules.
+          {t("acls.hostDesc")}
         </Text>
         <Input
           errorMessage={
             isDuplicate
-              ? "A host with this name already exists."
-              : "Host names may only contain lowercase letters, numbers and dashes."
+              ? t("acls.hostExists")
+              : t("acls.hostNameRule")
           }
           invalid={nameIsInvalid}
-          label="Name"
+          label={t("acls.name")}
           onChange={setDraftName}
           placeholder="office"
           value={draftName}
         />
         <Input
           invalid={draftValue.length > 0 && valueIsInvalid}
-          label="Address"
+          label={t("acls.address")}
           onChange={setDraftValue}
           placeholder="100.64.0.0/24"
           value={draftValue}

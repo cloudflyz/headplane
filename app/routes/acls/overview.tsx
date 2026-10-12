@@ -148,13 +148,13 @@ export default function Page({
           <TabsTab value="rules">
             <div className="flex items-center gap-2">
               <Shield className="p-1" />
-              <span>Rules</span>
+              <span>{t("acls.rules")}</span>
             </div>
           </TabsTab>
           <TabsTab value="tags">
             <div className="flex items-center gap-2">
               <TagsIcon className="p-1" />
-              <span>Tags &amp; Groups</span>
+              <span>{t("acls.tagsAndGroups")}</span>
             </div>
           </TabsTab>
           <TabsTab value="edit">
