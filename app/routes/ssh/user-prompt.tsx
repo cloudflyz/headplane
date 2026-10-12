@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Form } from "react-router";
 
 import Button from "~/components/button";
@@ -11,22 +12,20 @@ interface UserPromptProps {
 }
 
 export default function UserPrompt({ hostname }: UserPromptProps) {
+  const { t } = useTranslation();
   return (
     <div className="flex h-screen items-center justify-center">
       <Card>
-        <Card.Title>Enter Username</Card.Title>
+        <Card.Title>{t("ssh.enterUsername")}</Card.Title>
         <Card.Text className="mb-4">
-          Enter the username you want to use to connect to <Code>{hostname}</Code>
+          {t("ssh.enterUsernameDesc")} <Code>{hostname}</Code>
           {". "}
-          SSH via the web follows the same ACL rules as regular SSH access in Headscale, so only
-          permitted usernames will work.
+          {t("ssh.sshAclNote")}
           <br />
           <br />
-          See the{" "}
           <Link external styled to="https://headplane.net/features/ssh#troubleshooting">
-            troubleshooting guide
+            {t("ssh.troubleshootingGuide")}
           </Link>{" "}
-          for common errors.
         </Card.Text>
         <Form
           method="GET"
@@ -49,14 +48,14 @@ export default function UserPrompt({ hostname }: UserPromptProps) {
           <Input
             labelHidden
             type="text"
-            label="Username"
+            label={t("ssh.username")}
             name="user"
-            placeholder="Username"
+            placeholder={t("ssh.username")}
             className="mb-2"
             required
           />
           <Button type="submit" variant="heavy" className="w-full">
-            Connect
+            {t("ssh.connect")}
           </Button>
         </Form>
       </Card>

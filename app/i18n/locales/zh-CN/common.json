@@ -285,7 +285,13 @@
     "transferOwnershipTitle": "将所有权转移给 {{name}}？",
     "transferOwnershipDesc": "这将使 {{name}} 成为此 Headplane 实例的新所有者。您将被降级为管理员。此操作无法轻易撤销。",
     "transferOwnershipNotice": "只有所有者才能转移所有权。此后，您将无法再管理所有权。",
-    "editGroups": "编辑分组"
+    "editGroups": "编辑分组",
+    "editAclGroups": "编辑 {{name}} 的 ACL 分组",
+    "groupsLiveInAcl": "分组存在于 ACL 策略中，不在 Headscale 中。在此修改会重写策略中的",
+    "sectionOfPolicy": "部分。参见",
+    "forDetails": "了解详情。",
+    "policyHasCommentsWarning": "你的策略包含注释。在此保存会重写策略并丢弃注释。",
+    "notInAnyGroup": "该用户不在任何分组中"
   },
   "dns": {
     "title": "DNS",
@@ -526,5 +532,28 @@
     "authError": "认证错误",
     "ssoUnavailable": "SSO 暂时不可用",
     "configIssues": "配置问题"
+  },
+  "ssh": {
+    "enterUsername": "输入用户名",
+    "enterUsernameDesc": "输入你要用来连接到",
+    "sshAclNote": "Web SSH 遵循与 Headscale 中常规 SSH 访问相同的 ACL 规则，只有被允许的用户名才能连接。",
+    "troubleshootingGuide": "故障排除指南",
+    "connect": "连接",
+    "username": "用户名",
+    "joiningTailnet": "正在加入 Tailnet…",
+    "connectingTo": "正在连接到 {{hostname}}…",
+    "failedToJoin": "加入 Tailnet 失败：{{error}}",
+    "tailnetNodeStopped": "Tailnet 节点已停止：{{error}}",
+    "wasmMissingTitle": "浏览器 SSH 不可用",
+    "wasmMissingMsg": "此版本的 Headplane 未构建浏览器 SSH 支持。",
+    "agentRequiredTitle": "浏览器 SSH 需要 Headplane agent",
+    "agentRequiredMsg": "浏览器 SSH 仅在启用 Headplane agent 集成时可用。",
+    "oidcRequiredTitle": "浏览器 SSH 需要 OIDC 认证",
+    "oidcRequiredMsg": "浏览器 SSH 仅在启用 OIDC 认证时可用。",
+    "nodeNotFoundTitle": "未找到节点",
+    "nodeNotFoundMsg": "未找到主机名为 {{hostname}} 的节点。",
+    "userNotLinkedTitle": "用户账户未关联",
+    "userNotLinkedMsg": "使用浏览器 SSH 之前，需要将你的用户账户关联到 Headscale 用户。",
+    "sshDocumentation": "Headplane SSH 文档"
   }
 }

@@ -330,7 +330,13 @@
     "transferOwnershipTitle": "Transfer ownership to {{name}}?",
     "transferOwnershipDesc": "This will make {{name}} the new owner of this Headplane instance. You will be demoted to admin. This action cannot be easily undone.",
     "transferOwnershipNotice": "Only the owner can transfer ownership. After this, you will no longer be able to manage ownership.",
-    "editGroups": "Edit groups"
+    "editGroups": "Edit groups",
+    "editAclGroups": "Edit ACL groups for {{name}}",
+    "groupsLiveInAcl": "Groups live in the ACL policy, not in Headscale. Changing them here rewrites the",
+    "sectionOfPolicy": "section of your policy. See the",
+    "forDetails": "for details.",
+    "policyHasCommentsWarning": "Your policy contains comments. Saving here rewrites the policy and drops them.",
+    "notInAnyGroup": "This user is not in any group"
   },
   "dns": {
     "title": "DNS",
@@ -526,5 +532,28 @@
     "subnetRouter": "Subnet router",
     "clearFilter": "Clear filter",
     "clearFilters": "Clear filters"
+  },
+  "ssh": {
+    "enterUsername": "Enter Username",
+    "enterUsernameDesc": "Enter the username you want to use to connect to",
+    "sshAclNote": "SSH via the web follows the same ACL rules as regular SSH access in Headscale, so only permitted usernames will work.",
+    "troubleshootingGuide": "troubleshooting guide",
+    "connect": "Connect",
+    "username": "Username",
+    "joiningTailnet": "Joining Tailnet…",
+    "connectingTo": "Connecting to {{hostname}}…",
+    "failedToJoin": "Failed to join Tailnet: {{error}}",
+    "tailnetNodeStopped": "Tailnet node stopped: {{error}}",
+    "wasmMissingTitle": "Browser SSH is not available",
+    "wasmMissingMsg": "This version of Headplane was not built with browser SSH support.",
+    "agentRequiredTitle": "Browser SSH requires the Headplane agent",
+    "agentRequiredMsg": "Browser SSH is only available when the Headplane agent integration is enabled.",
+    "oidcRequiredTitle": "Browser SSH requires OIDC authentication",
+    "oidcRequiredMsg": "Browser SSH is only available when OIDC authentication is enabled.",
+    "nodeNotFoundTitle": "Node not found",
+    "nodeNotFoundMsg": "No node found with hostname {{hostname}}.",
+    "userNotLinkedTitle": "User account not linked",
+    "userNotLinkedMsg": "You'll need to link your user account to a Headscale user before you can use Browser SSH.",
+    "sshDocumentation": "Headplane SSH Documentation"
   }
 }
