@@ -23,6 +23,7 @@ interface MenuProps {
   isFullButton?: boolean;
   isDisabled?: boolean;
   existingTags?: string[];
+  policyTags?: string[];
   supportsNodeOwnerChange: boolean;
   supportsDisablingKeyExpiry: boolean;
 }
@@ -36,6 +37,7 @@ export default function MachineMenu({
   isFullButton,
   isDisabled,
   existingTags,
+  policyTags,
   supportsNodeOwnerChange,
   supportsDisablingKeyExpiry,
 }: MenuProps) {
@@ -87,6 +89,7 @@ export default function MachineMenu({
       {modal === "tags" && (
         <Tags
           existingTags={existingTags}
+          policyTags={policyTags}
           isOpen={modal === "tags"}
           machine={node}
           setIsOpen={(isOpen) => {

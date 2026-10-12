@@ -313,6 +313,16 @@ in {
                         '';
                       };
 
+                      tailscale_netns = mkOption {
+                        type = types.bool;
+                        default = true;
+                        description = ''
+                          Use Tailscale's socket-level routing-loop handling in the dedicated Headplane agent process.
+                          Keep enabled unless its fallback pins the agent's Headscale connection to the wrong interface.
+                          Set to false only after verifying that ordinary OS routing in the container's network namespace reaches Headscale correctly.
+                        '';
+                      };
+
                       package = mkPackageOption pkgs "headplane-agent" {};
                     };
                   };
@@ -373,6 +383,13 @@ in {
                   default = null;
                   description = "Optionally override userinfo_endpoint";
                   example = "https://provider.example.com/userinfo_endpoint";
+                };
+
+                jwks_endpoint = mkOption {
+                  type = types.nullOr types.str;
+                  default = null;
+                  description = "Optionally override jwks_endpoint";
+                  example = "https://provider.example.com/jwks_endpoint";
                 };
 
                 client_id = mkOption {

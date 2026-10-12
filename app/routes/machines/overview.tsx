@@ -21,7 +21,12 @@ import { nodesResource, usersResource } from "~/server/headscale/live-store";
 import { isUserPrincipal } from "~/server/web/auth";
 import { Capabilities } from "~/server/web/roles";
 import cn from "~/utils/cn";
-import { mapNodes, sortAssignableTags, type PopulatedNode } from "~/utils/node-info";
+import {
+  extractTagOwnerTags,
+  mapNodes,
+  sortAssignableTags,
+  type PopulatedNode,
+} from "~/utils/node-info";
 
 import type { Route } from "./+types/overview";
 import { MachineFilters } from "./components/machine-filters";
@@ -81,6 +86,8 @@ export async function loader({ request, context }: Route.LoaderArgs) {
       : undefined,
     headscaleUserId: isUserPrincipal(principal) ? principal.user.headscaleUserId : undefined,
     existingTags: sortAssignableTags(nodes, policy),
+    // `undefined` keeps the tag dialog from flagging every tag as undeclared.
+    policyTags: extractTagOwnerTags(policy),
     magic,
     nodes,
     populatedNodes,
@@ -451,6 +458,7 @@ export default function Page({ loaderData }: Route.ComponentProps) {
               filteredAndSortedNodes.map((node) => (
                 <MachineRow
                   existingTags={loaderData.existingTags}
+                  policyTags={loaderData.policyTags}
                   isAgent={
                     loaderData.agent !== undefined
                       ? node.nodeKey === loaderData.agent.nodeKey

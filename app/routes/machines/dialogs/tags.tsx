@@ -1,4 +1,4 @@
-import { Plus, TagsIcon, X } from "lucide-react";
+import { AlertTriangle, Plus, TagsIcon, X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { useFetcher } from "react-router";
@@ -18,9 +18,11 @@ interface TagsProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   existingTags?: string[];
+  // Tags declared under `tagOwners`. Others are assignable but match no rule.
+  policyTags?: string[];
 }
 
-export default function Tags({ machine, isOpen, setIsOpen, existingTags }: TagsProps) {
+export default function Tags({ machine, isOpen, setIsOpen, existingTags, policyTags }: TagsProps) {
   const { t } = useTranslation();
   const fetcher = useFetcher();
   const submittingRef = useRef(false);
@@ -33,6 +35,10 @@ export default function Tags({ machine, isOpen, setIsOpen, existingTags }: TagsP
   const tagIsInvalid = useMemo(
     () => tag.length === 0 || !tag.startsWith("tag:") || tags.includes(tag),
     [tag, tags],
+  );
+  const undeclaredTags = useMemo(
+    () => (policyTags === undefined ? [] : tags.filter((entry) => !policyTags.includes(entry))),
+    [policyTags, tags],
   );
 
   const error = fetcher.data && !fetcher.data.success ? fetcher.data.error : null;
@@ -103,7 +109,12 @@ export default function Tags({ machine, isOpen, setIsOpen, existingTags }: TagsP
           ) : (
             tags.map((item) => (
               <TableList.Item className="font-mono" id={item} key={item}>
-                {item}
+                <span className="flex items-center gap-1.5">
+                  {item}
+                  {undeclaredTags.includes(item) ? (
+                    <AlertTriangle className="h-3.5 w-3.5 text-amber-500" />
+                  ) : null}
+                </span>
                 <Button
                   className="rounded-md p-0.5"
                   onClick={() => {
@@ -156,7 +167,19 @@ export default function Tags({ machine, isOpen, setIsOpen, existingTags }: TagsP
             ))}
           </div>
         ) : null}
-        <p className="mt-2 text-sm opacity-50">{t("machine.tagsNeedPolicy")}</p>
+        {undeclaredTags.length > 0 ? (
+          <p className="mt-2 rounded-lg bg-amber-50 p-3 text-sm text-amber-800 dark:bg-amber-900/20 dark:text-amber-300">
+            {undeclaredTags.join(", ")} {t("machine.tagsUndeclared1")}
+            <code className="font-mono">tagOwners</code> {t("machine.tagsUndeclared2")}
+            <Link styled to="/acls">
+              {t("nav.acls")}
+            </Link>
+            .
+          </p>
+        ) : null}
+        <p className="mt-2 text-sm opacity-50">
+          {t("machine.tagsNeedPolicy")}
+        </p>
       </DialogPanel>
     </Dialog>
   );

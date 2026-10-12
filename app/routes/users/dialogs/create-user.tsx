@@ -5,6 +5,7 @@ import Dialog, { DialogPanel } from "~/components/dialog";
 import Input from "~/components/input";
 import Text from "~/components/text";
 import Title from "~/components/title";
+import { USERNAME_PATTERN, USERNAME_RULE } from "~/utils/user";
 
 interface CreateUserProps {
   isOidc?: boolean;
@@ -25,24 +26,18 @@ export default function CreateUser({ isOidc, isDisabled }: CreateUserProps) {
         <input name="action_id" type="hidden" value="create_user" />
         <div className="flex flex-col gap-4">
           <Input
+            description={USERNAME_RULE}
+            minLength={2}
+            pattern={USERNAME_PATTERN}
             required
+            title={USERNAME_RULE}
             label={t("users.username")}
             name="username"
             placeholder="my-new-user"
             type="text"
           />
-          <Input
-            label={t("users.displayName")}
-            name="display_name"
-            placeholder="John Doe"
-            type="text"
-          />
-          <Input
-            label={t("users.email")}
-            name="email"
-            placeholder="name@example.com"
-            type="email"
-          />
+          <Input label={t("users.displayName")} name="display_name" placeholder="John Doe" type="text" />
+          <Input label={t("users.email")} name="email" placeholder="name@example.com" type="email" />
         </div>
       </DialogPanel>
     </Dialog>

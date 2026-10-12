@@ -35,7 +35,7 @@ const serverConfig = type({
   host: 'string.ip = "0.0.0.0"',
   port: "number.integer = 3000",
   base_url: "string.url?",
-  data_path: 'string.lower = "/var/lib/headplane/"',
+  data_path: 'string = "/var/lib/headplane/"',
   info_secret: "string?",
 
   cookie_secret: "(32 <= string <= 32)",
@@ -65,7 +65,7 @@ const partialServerConfig = type({
   host: "string.ip?",
   port: "number.integer?",
   base_url: "string.url?",
-  data_path: "string.lower?",
+  data_path: "string?",
   info_secret: "string?",
 
   cookie_secret: "(32 <= string <= 32)?",
@@ -94,10 +94,10 @@ const headscaleConfig = type({
     .pipe((v) => (v.endsWith("/") ? v.slice(0, -1) : v))
     .optional(),
   api_key: "string?",
-  config_path: "string.lower?",
+  config_path: "string?",
   config_strict: "boolean = true",
-  dns_records_path: "string.lower?",
-  tls_cert_path: "string.lower?",
+  dns_records_path: "string?",
+  tls_cert_path: "string?",
 });
 
 const partialHeadscaleConfig = type({
@@ -108,10 +108,10 @@ const partialHeadscaleConfig = type({
     .pipe((v) => (v.endsWith("/") ? v.slice(0, -1) : v))
     .optional(),
   api_key: "string?",
-  config_path: "string.lower?",
+  config_path: "string?",
   config_strict: "boolean?",
-  dns_records_path: "string.lower?",
-  tls_cert_path: "string.lower?",
+  dns_records_path: "string?",
+  tls_cert_path: "string?",
 });
 
 const assignableRole = '"admin" | "network_admin" | "it_admin" | "auditor" | "viewer" | "member"';
@@ -159,6 +159,7 @@ const oidcConfig = type({
   token_endpoint: "string.url?",
   userinfo_endpoint: "string.url?",
   end_session_endpoint: "string.url?",
+  jwks_endpoint: "string.url?",
   post_logout_redirect_uri: "string.url?",
   use_end_session: "boolean = false",
   token_endpoint_auth_method: '"client_secret_basic" | "client_secret_post" | "client_secret_jwt"?',
@@ -188,6 +189,7 @@ const partialOidcConfig = type({
   token_endpoint: "string.url?",
   userinfo_endpoint: "string.url?",
   end_session_endpoint: "string.url?",
+  jwks_endpoint: "string.url?",
   post_logout_redirect_uri: "string.url?",
   use_end_session: "boolean?",
   token_endpoint_auth_method: '"client_secret_basic" | "client_secret_post" | "client_secret_jwt"?',
@@ -202,6 +204,7 @@ const agentConfig = type({
   cache_ttl: "number.integer = 180000",
   executable_path: 'string = "/usr/libexec/headplane/agent"',
   work_dir: 'string = "/var/lib/headplane/agent"',
+  tailscale_netns: "boolean = true",
   pre_authkey: type("unknown").narrow(deprecatedField()).optional(),
   cache_path: type("unknown").narrow(deprecatedField()).optional(),
 });
@@ -212,6 +215,7 @@ const partialAgentConfig = type({
   cache_ttl: "number.integer?",
   executable_path: "string?",
   work_dir: "string?",
+  tailscale_netns: "boolean?",
   pre_authkey: type("unknown").narrow(deprecatedField()).optional(),
   cache_path: type("unknown").narrow(deprecatedField()).optional(),
 });
