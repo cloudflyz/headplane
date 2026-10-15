@@ -507,7 +507,15 @@
     "never": "Never",
     "unknown": "Unknown",
     "add": "Add",
-    "remove": "Remove"
+    "remove": "Remove",
+    "copiedToClipboard": "Copied to clipboard",
+    "copyFailed": "Copy failed. Please copy the text manually.",
+    "clickToCopy": "Click to copy",
+    "copiedToClipboardWithName": "Copied {{name}} to clipboard",
+    "expired": "Expired",
+    "noExpiry": "No expiry",
+    "online": "Online",
+    "offline": "Offline"
   },
   "auth": {
     "welcome": "Welcome to Headplane",
@@ -555,5 +563,16 @@
     "userNotLinkedTitle": "User account not linked",
     "userNotLinkedMsg": "You'll need to link your user account to a Headscale user before you can use Browser SSH.",
     "sshDocumentation": "Headplane SSH Documentation"
+  },
+  "tags": {
+    "exitNode": "Exit Node",
+    "subnets": "Subnets",
+    "headplaneAgent": "Headplane Agent",
+    "tailscaleSSH": "Tailscale SSH"
+  },
+  "error": {
+    "headscaleApiError": "Headscale API Error",
+    "cannotConnect": "Cannot connect to Headscale API",
+    "unexpected": "Unexpected Error"
   }
 }

@@ -462,7 +462,15 @@
     "never": "从未",
     "unknown": "未知",
     "add": "添加",
-    "remove": "移除"
+    "remove": "移除",
+    "copiedToClipboard": "已复制到剪贴板",
+    "copyFailed": "复制失败，请手动复制文本。",
+    "clickToCopy": "点击复制",
+    "copiedToClipboardWithName": "已复制 {{name}} 到剪贴板",
+    "expired": "已过期",
+    "noExpiry": "永不过期",
+    "online": "在线",
+    "offline": "离线"
   },
   "machineFilters": {
     "user": "用户",
@@ -555,5 +563,16 @@
     "userNotLinkedTitle": "用户账户未关联",
     "userNotLinkedMsg": "使用浏览器 SSH 之前，需要将你的用户账户关联到 Headscale 用户。",
     "sshDocumentation": "Headplane SSH 文档"
+  },
+  "tags": {
+    "exitNode": "出口节点",
+    "subnets": "子网",
+    "headplaneAgent": "Headplane 代理",
+    "tailscaleSSH": "Tailscale SSH"
+  },
+  "error": {
+    "headscaleApiError": "Headscale API 错误",
+    "cannotConnect": "无法连接到 Headscale API",
+    "unexpected": "意外错误"
   }
 }
