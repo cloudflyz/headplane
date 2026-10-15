@@ -14,7 +14,7 @@ import Title from "~/components/title";
 import { useForm } from "~/hooks/use-form";
 import type { User } from "~/types";
 import { normalizeRegistrationKey } from "~/utils/register-key";
-import { getUserDisplayName } from "~/utils/user";
+import { getUserDisplayName, sortUsersByDisplayName } from "~/utils/user";
 
 const registerSchema = type({
   register_key: "string > 0",
@@ -63,7 +63,7 @@ export default function NewMachine(data: NewMachineProps) {
             name="user"
             onValueChange={(v) => form.setValue("user", v)}
             placeholder={t("machines.selectUser")}
-            items={data.users.map((user) => ({
+            items={sortUsersByDisplayName(data.users).map((user) => ({
               // Headscale's v1/node/register endpoint resolves the owner by
               // username via GetUserByName, so we must pass user.name (not id).
               value: user.name,

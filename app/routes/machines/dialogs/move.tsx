@@ -6,7 +6,7 @@ import Select from "~/components/select";
 import Text from "~/components/text";
 import Title from "~/components/title";
 import type { Machine, User } from "~/types";
-import { getUserDisplayName } from "~/utils/user";
+import { getUserDisplayName, sortUsersByDisplayName } from "~/utils/user";
 
 interface MoveProps {
   machine: Machine;
@@ -36,7 +36,7 @@ export default function Move({ machine, users, isOpen, setIsOpen }: MoveProps) {
             setUserId(key);
           }}
           placeholder={t("machines.selectUser")}
-          items={users.map((user) => ({
+          items={sortUsersByDisplayName(users).map((user) => ({
             value: user.id,
             label: getUserDisplayName(user),
           }))}

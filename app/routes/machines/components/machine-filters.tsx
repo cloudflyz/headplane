@@ -6,7 +6,7 @@ import { Menu, MenuContent, MenuItem, MenuSeparator, MenuTrigger } from "~/compo
 import type { User } from "~/types/User";
 import cn from "~/utils/cn";
 import type { PopulatedNode } from "~/utils/node-info";
-import { getUserDisplayName } from "~/utils/user";
+import { getUserDisplayName, sortUsersByDisplayName } from "~/utils/user";
 
 import { useMachineFilterParams } from "../hooks/use-machine-filter-params";
 
@@ -86,7 +86,7 @@ export function MachineFilters({ users, populatedNodes }: MachineFiltersProps): 
   const tagOwnedExists = populatedNodes.some((n) => !n.user);
   const userOptions = [
     ...(tagOwnedExists ? [{ value: "tag-owned", label: t("machineFilters.tagOwned") }] : []),
-    ...users.map((u) => ({ value: u.name, label: getUserDisplayName(u) })),
+    ...sortUsersByDisplayName(users).map((u) => ({ value: u.name, label: getUserDisplayName(u) })),
   ];
 
   const statusOptions = [

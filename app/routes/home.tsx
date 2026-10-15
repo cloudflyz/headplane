@@ -21,7 +21,7 @@ import { usersResource } from "~/server/headscale/live-store";
 import { isUserPrincipal } from "~/server/web/auth";
 import { Capabilities } from "~/server/web/roles";
 import cn from "~/utils/cn";
-import { getUserDisplayName } from "~/utils/user";
+import { getUserDisplayName, sortUsersByDisplayName } from "~/utils/user";
 
 import type { Route } from "./+types/home";
 
@@ -47,9 +47,9 @@ export async function loader({ request, context }: Route.LoaderArgs) {
       ]);
 
       const apiUsers = usersSnap.data;
-      headscaleUsers = apiUsers
-        .filter((u) => !claimed.has(u.id))
-        .map((u) => ({ id: u.id, name: getUserDisplayName(u) }));
+      headscaleUsers = sortUsersByDisplayName(apiUsers.filter((u) => !claimed.has(u.id))).map(
+        (u) => ({ id: u.id, name: getUserDisplayName(u) }),
+      );
     } catch {
       // API unavailable, skip the link picker
     }
