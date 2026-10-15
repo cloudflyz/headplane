@@ -1,4 +1,5 @@
 import { Info } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 import cn from "~/utils/cn";
 
@@ -10,6 +11,7 @@ export interface ExitNodeTagProps {
 }
 
 export function ExitNodeTag({ isEnabled }: ExitNodeTagProps) {
+  const { t } = useTranslation();
   return (
     <Tooltip
       content={
@@ -24,7 +26,7 @@ export function ExitNodeTag({ isEnabled }: ExitNodeTagProps) {
       }
     >
       <Chip
-        text="Exit Node"
+        text={t("tags.exitNode")}
         className={cn("bg-blue-300 text-blue-900 dark:bg-blue-900 dark:text-blue-300")}
         rightIcon={isEnabled ? undefined : <Info className="h-full w-fit" />}
       />

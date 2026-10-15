@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 import cn from "~/utils/cn";
 
 export interface StatusCircleProps {
@@ -6,6 +8,7 @@ export interface StatusCircleProps {
 }
 
 export default function StatusCircle({ isOnline, className }: StatusCircleProps) {
+  const { t } = useTranslation();
   return (
     <svg
       className={cn(
@@ -15,7 +18,7 @@ export default function StatusCircle({ isOnline, className }: StatusCircleProps)
       viewBox="0 0 24 24"
       fill="currentColor"
     >
-      <title>{isOnline ? "Online" : "Offline"}</title>
+      <title>{isOnline ? t("common.online") : t("common.offline")}</title>
       <circle cx="12" cy="12" r="8" />
     </svg>
   );
