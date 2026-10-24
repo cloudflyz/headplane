@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 import Chip from "../chip";
 import Tooltip from "../tooltip";
 
@@ -7,6 +9,7 @@ export interface ExpiryTagProps {
 }
 
 export function ExpiryTag({ variant, expiry }: ExpiryTagProps) {
+  const { t } = useTranslation();
   const formatter = new Intl.DateTimeFormat("en-US", {
     month: "short",
     day: "numeric",
@@ -28,7 +31,9 @@ export function ExpiryTag({ variant, expiry }: ExpiryTagProps) {
     >
       <Chip
         text={
-          variant === "expired" ? `Expired ${formatter.format(new Date(expiry!))}` : "No expiry"
+          variant === "expired"
+            ? `${t("common.expired")} ${formatter.format(new Date(expiry!))}`
+            : t("common.noExpiry")
         }
         className="bg-mist-200 text-mist-800 dark:bg-mist-800 dark:text-mist-200"
       />

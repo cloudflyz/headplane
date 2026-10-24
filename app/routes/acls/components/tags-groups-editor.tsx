@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import Chip from "~/components/chip";
 import Link from "~/components/link";
@@ -32,6 +33,7 @@ export default function TagsGroupsEditor({
   users,
   tagUsage,
 }: TagsGroupsEditorProps) {
+  const { t } = useTranslation();
   const [editing, setEditing] = useState<Editing>(null);
 
   const groups = Object.entries(policy.groups).sort(([a], [b]) => a.localeCompare(b));
@@ -88,18 +90,13 @@ export default function TagsGroupsEditor({
       ) : null}
 
       <Section
-        description={
-          <>
-            Groups bundle users together so rules can refer to a team instead of individual
-            accounts. Membership is stored in the policy, not in Headscale.
-          </>
-        }
+        description={t("acls.groupsDesc")}
         isDisabled={isDisabled}
         onAdd={() => setEditing({ kind: "group", name: null })}
-        title="Groups"
+        title={t("acls.groups")}
       >
         {groups.length === 0 ? (
-          <Empty text="No groups are defined yet." />
+          <Empty text={t("acls.noGroups")} />
         ) : (
           groups.map(([name, members]) => (
             <TableList.Item
@@ -110,7 +107,7 @@ export default function TagsGroupsEditor({
                 <span className="font-mono text-sm">{name}</span>
                 <span className="flex flex-wrap items-center gap-1">
                   {members.length === 0 ? (
-                    <span className="text-xs opacity-60">No members</span>
+                    <span className="text-xs opacity-60">{t("acls.noMembers")}</span>
                   ) : (
                     members.map((member) => (
                       <Chip className="font-mono" key={member} text={member} />
@@ -131,20 +128,19 @@ export default function TagsGroupsEditor({
       <Section
         description={
           <>
-            Tags identify machines by role instead of by owner. A tag must be declared here before
-            it can be assigned to a node — see the{" "}
+            {t("acls.tagsDesc")}{" "}
             <Link external styled to="https://tailscale.com/kb/1068/acl-tags">
-              Tailscale tag documentation
+              {t("acls.tailscaleTagDocs")}
             </Link>
             .
           </>
         }
         isDisabled={isDisabled}
         onAdd={() => setEditing({ kind: "tag", name: null })}
-        title="Tags"
+        title={t("acls.tags")}
       >
         {tags.length === 0 ? (
-          <Empty text="No tags are defined yet." />
+          <Empty text={t("acls.noTags")} />
         ) : (
           tags.map(([name, owners]) => {
             const usedBy = tagUsage.find((usage) => usage.tag === name)?.nodes ?? [];
@@ -158,13 +154,13 @@ export default function TagsGroupsEditor({
                     <span className="font-mono text-sm">{name}</span>
                     <span className="text-xs opacity-60">
                       {usedBy.length === 0
-                        ? "Not assigned to any machine"
-                        : `${usedBy.length} machine${usedBy.length === 1 ? "" : "s"}: ${usedBy.join(", ")}`}
+                        ? t("acls.notAssignedToMachine")
+                        : `${usedBy.length} ${t("machines.name")}: ${usedBy.join(", ")}`}
                     </span>
                   </div>
                   <span className="flex flex-wrap items-center gap-1">
                     {owners.length === 0 ? (
-                      <span className="text-xs opacity-60">No owners</span>
+                      <span className="text-xs opacity-60">{t("acls.noOwners")}</span>
                     ) : (
                       owners.map((owner) => <Chip className="font-mono" key={owner} text={owner} />)
                     )}

@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 import Dialog, { DialogPanel } from "~/components/dialog";
 import Text from "~/components/text";
 import Title from "~/components/title";
@@ -11,24 +13,21 @@ interface DeleteProps {
 }
 
 export default function DeleteUser({ user, machines, isOpen, setIsOpen }: DeleteProps) {
+  const { t } = useTranslation();
   const name = user.name || user.displayName;
 
   return (
     <Dialog isOpen={isOpen} onOpenChange={setIsOpen}>
       <DialogPanel variant={machines.length > 0 ? "unactionable" : "normal"}>
-        <Title>Delete {name}?</Title>
+        <Title>{t("users.deleteUserTitle", { name })}</Title>
         {machines.length > 0 ? (
-          <Text className="mb-6">
-            Users cannot be deleted if they have machines. Please delete or re-assign their machines
-            to other users before proceeding.
-          </Text>
+          <Text className="mb-6">{t("users.deleteUserHasMachines")}</Text>
         ) : (
           <Text className="mb-6">
-            Deleted users cannot be recovered.
+            {t("users.deleteUserIrrecoverable")}
             {user.provider === "oidc" && (
               <p className="mt-4 text-sm text-mist-600 dark:text-mist-300">
-                Since this user is authenticated via an external provider, they will be recreated if
-                they sign in again.
+                {t("users.deleteUserOidc")}
               </p>
             )}
           </Text>

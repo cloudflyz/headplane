@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import Dialog, { DialogPanel } from "~/components/dialog";
 import Input from "~/components/input";
@@ -29,6 +30,7 @@ export default function SshRuleDialog({
   destinations,
   onSave,
 }: SshRuleDialogProps) {
+  const { t } = useTranslation();
   const [draft, setDraft] = useState<SshRule>(rule ?? EMPTY);
 
   useEffect(() => {
@@ -49,49 +51,54 @@ export default function SshRuleDialog({
           setIsOpen(false);
         }}
       >
-        <Title>{rule ? "Edit SSH rule" : "New SSH rule"}</Title>
+        <Title>{rule ? t("acls.editSshRule") : t("acls.newSshRule")}</Title>
         <Text>
-          SSH rules control Tailscale SSH access between nodes. Read the{" "}
+          {t("acls.sshRuleDesc")}{" "}
           <Link external styled to="https://tailscale.com/kb/1193/tailscale-ssh">
-            Tailscale SSH documentation
+            {t("acls.tailscaleSshDocs")}
           </Link>{" "}
-          for details about check mode.
+          {t("acls.sshDocSuffix")}
         </Text>
         <Select
           items={[
-            { value: "accept", label: "Accept — allow the session immediately" },
-            { value: "check", label: "Check — require periodic re-authentication" },
+            { value: "accept", label: t("acls.acceptLabel") },
+            { value: "check", label: t("acls.checkLabel") },
             // An action we do not know is listed as-is so it survives an edit.
             ...(KNOWN_SSH_ACTIONS.includes(draft.action)
               ? []
-              : [{ value: draft.action, label: `${draft.action} — not known to Headplane` }]),
+              : [
+                  {
+                    value: draft.action,
+                    label: t("acls.unknownActionLabel", { action: draft.action }),
+                  },
+                ]),
           ]}
-          label="Action"
+          label={t("acls.action")}
           onValueChange={(value) => setDraft({ ...draft, action: value ?? draft.action })}
           value={draft.action}
         />
         <TokenList
-          description="Who is allowed to open the SSH session."
-          emptyText="No sources yet"
-          label="Sources"
+          description={t("acls.sshSourcesDesc")}
+          emptyText={t("acls.noSourcesYet")}
+          label={t("acls.sources")}
           onChange={(src) => setDraft({ ...draft, src })}
           placeholder="group:ops"
           suggestions={sources}
           values={draft.src}
         />
         <TokenList
-          description="The nodes that accept the SSH session."
-          emptyText="No destinations yet"
-          label="Destinations"
+          description={t("acls.sshDestinationsDesc")}
+          emptyText={t("acls.noDestinationsYet")}
+          label={t("acls.destinations")}
           onChange={(dst) => setDraft({ ...draft, dst })}
           placeholder="tag:server"
           suggestions={destinations}
           values={draft.dst}
         />
         <TokenList
-          description="The local Unix users that may be logged into."
-          emptyText="No SSH users yet"
-          label="SSH users"
+          description={t("acls.sshUsersDesc")}
+          emptyText={t("acls.noSshUsersYet")}
+          label={t("acls.sshUsers")}
           onChange={(users) => setDraft({ ...draft, users })}
           placeholder="autogroup:nonroot"
           suggestions={SSH_USERS}
@@ -99,8 +106,8 @@ export default function SshRuleDialog({
         />
         {draft.action === "check" ? (
           <Input
-            description="How long a check-mode session stays valid, for example 12h."
-            label="Check period"
+            description={t("acls.checkPeriodDesc")}
+            label={t("acls.checkPeriod")}
             onChange={(checkPeriod) =>
               setDraft({ ...draft, checkPeriod: checkPeriod.length > 0 ? checkPeriod : undefined })
             }

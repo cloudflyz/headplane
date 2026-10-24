@@ -1,4 +1,5 @@
 import { Info } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 import cn from "~/utils/cn";
 
@@ -10,6 +11,7 @@ export interface SubnetTagProps {
 }
 
 export function SubnetTag({ isEnabled }: SubnetTagProps) {
+  const { t } = useTranslation();
   return (
     <Tooltip
       content={
@@ -24,7 +26,7 @@ export function SubnetTag({ isEnabled }: SubnetTagProps) {
       }
     >
       <Chip
-        text="Subnets"
+        text={t("tags.subnets")}
         className={cn("bg-blue-300 text-blue-900 dark:bg-blue-900 dark:text-blue-300")}
         rightIcon={isEnabled ? undefined : <Info className="h-full w-fit" />}
       />

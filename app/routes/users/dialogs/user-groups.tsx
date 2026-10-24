@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useFetcher } from "react-router";
 
 import Dialog, { DialogPanel } from "~/components/dialog";
@@ -29,6 +30,7 @@ export default function UserGroups({
   availableGroups,
   policyHasComments,
 }: UserGroupsProps) {
+  const { t } = useTranslation();
   const fetcher = useFetcher<{ message?: string; error?: string }>();
   const submittingRef = useRef(false);
   const [selected, setSelected] = useState([...groups]);
@@ -73,18 +75,18 @@ export default function UserGroups({
           fetcher.submit(form, { method: "POST" });
         }}
       >
-        <Title>Edit ACL groups for {displayName}</Title>
+        <Title>{t("users.editAclGroups", { name: displayName })}</Title>
         <Text>
-          Groups live in the ACL policy, not in Headscale. Changing them here rewrites the{" "}
-          <code className="font-mono">groups</code> section of your policy. See the{" "}
+          {t("users.groupsLiveInAcl")} <code className="font-mono">groups</code>{" "}
+          {t("users.sectionOfPolicy")}{" "}
           <Link external styled to="https://tailscale.com/kb/1018/acls">
-            Tailscale ACL guide
+            {t("acls.tailscaleAclGuide")}
           </Link>{" "}
-          for details.
+          {t("users.forDetails")}
         </Text>
         {policyHasComments ? (
           <p className="mt-2 rounded-lg bg-amber-50 p-3 text-sm text-amber-800 dark:bg-amber-900/20 dark:text-amber-300">
-            Your policy contains comments. Saving here rewrites the policy and drops them.
+            {t("users.policyHasCommentsWarning")}
           </p>
         ) : null}
         {error ? (
@@ -93,9 +95,9 @@ export default function UserGroups({
           </p>
         ) : null}
         <TokenList
-          emptyText="This user is not in any group"
+          emptyText={t("users.notInAnyGroup")}
           isDisabled={isSubmitting}
-          label="Groups"
+          label={t("acls.groups")}
           onChange={setSelected}
           placeholder="group:example"
           suggestions={availableGroups}

@@ -11,8 +11,10 @@ import {
   Sun,
   Users,
 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { NavLink, unstable_useRoute as useRoute, useLocation, useSubmit } from "react-router";
 
+import LanguageMenuItems from "~/components/language-menu-items";
 import Link from "~/components/link";
 import { Menu, MenuContent, MenuItem, MenuSeparator, MenuTrigger } from "~/components/menu";
 import logoBg from "~/logo/dark-bg.svg";
@@ -41,17 +43,17 @@ export interface HeaderProps {
 }
 
 const tabs = [
-  { to: "/machines", icon: Server, label: "Machines", key: "machines" },
-  { to: "/users", icon: Users, label: "Users", key: "users" },
-  { to: "/acls", icon: Lock, label: "Access Control", key: "policy" },
-  { to: "/dns", icon: Globe, label: "DNS", key: "dns" },
-  { to: "/settings", icon: Settings, label: "Settings", key: "settings" },
+  { to: "/machines", icon: Server, label: "nav.machines", key: "machines" },
+  { to: "/users", icon: Users, label: "nav.users", key: "users" },
+  { to: "/acls", icon: Lock, label: "nav.acls", key: "policy" },
+  { to: "/dns", icon: Globe, label: "nav.dns", key: "dns" },
+  { to: "/settings", icon: Settings, label: "nav.settings", key: "settings" },
 ] as const;
 
 const colorSchemes = [
-  { value: "system", label: "System", icon: Monitor },
-  { value: "light", label: "Light", icon: Sun },
-  { value: "dark", label: "Dark", icon: Moon },
+  { value: "system", label: "theme.system", icon: Monitor },
+  { value: "light", label: "theme.light", icon: Sun },
+  { value: "dark", label: "theme.dark", icon: Moon },
 ] as const satisfies ReadonlyArray<{
   value: ColorScheme;
   label: string;
@@ -59,6 +61,7 @@ const colorSchemes = [
 }>;
 
 export default function Header({ user, access, configAvailable }: HeaderProps) {
+  const { t } = useTranslation();
   const submit = useSubmit();
   const showTabs = access.ui;
   const rootRoute = useRoute("root");
@@ -110,7 +113,7 @@ export default function Header({ user, access, configAvailable }: HeaderProps) {
                     to={tab.to}
                   >
                     <tab.icon className="w-4" />
-                    {tab.label}
+                    {t(tab.label)}
                   </NavLink>
                 );
               })}
@@ -125,17 +128,17 @@ export default function Header({ user, access, configAvailable }: HeaderProps) {
             <MenuContent align="end">
               <MenuItem>
                 <Link external to="https://headplane.net">
-                  Docs
+                  {t("menu.docs")}
                 </Link>
               </MenuItem>
               <MenuItem>
                 <Link external to="https://headscale.net">
-                  Headscale
+                  {t("menu.headscale")}
                 </Link>
               </MenuItem>
               <MenuItem>
                 <Link external to="https://tailscale.com/download">
-                  Download
+                  {t("menu.download")}
                 </Link>
               </MenuItem>
             </MenuContent>
@@ -177,17 +180,20 @@ export default function Header({ user, access, configAvailable }: HeaderProps) {
                 >
                   <div className="flex items-center gap-x-2">
                     <Icon className="size-4" />
-                    <span className="flex-1">{label}</span>
+                    <span className="flex-1">{t(label)}</span>
                     {currentColorScheme === value && <Check className="size-4" />}
                   </div>
                 </MenuItem>
               ))}
               <MenuSeparator />
+              {/* 语言切换菜单 — 独立组件，同步官方代码时只需保留这一行 */}
+              <LanguageMenuItems />
+              <MenuSeparator />
               <MenuItem
                 variant="danger"
                 onClick={() => submit({}, { action: "/logout", method: "POST" })}
               >
-                Logout
+                {t("menu.logout")}
               </MenuItem>
             </MenuContent>
           </Menu>
@@ -218,7 +224,7 @@ export default function Header({ user, access, configAvailable }: HeaderProps) {
                   to={tab.to}
                 >
                   <tab.icon className="w-4" />
-                  {tab.label}
+                  {t(tab.label)}
                 </NavLink>
               );
             })}

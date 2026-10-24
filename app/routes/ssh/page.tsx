@@ -1,5 +1,6 @@
 import { Loader2, WifiOff } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { data, isRouteErrorResponse, type ShouldRevalidateFunction } from "react-router";
 
 import Button from "~/components/button";
@@ -216,9 +217,10 @@ function SSHConsole({
   username: string;
   node: { ipAddress: string; controlURL: string; preAuthKey: string; ephemeralHostname: string };
 }) {
+  const { t } = useTranslation();
   const [ipn, setIpn] = useState<IPN | null>(null);
   const [connected, setConnected] = useState(false);
-  const [status, setStatus] = useState("Joining Tailnet…");
+  const [status, setStatus] = useState(t("ssh.joiningTailnet"));
 
   useEffect(() => {
     let cancelled = false;
@@ -228,24 +230,26 @@ function SSHConsole({
       authKey: node.preAuthKey,
       hostname: node.ephemeralHostname,
       onPanic: (error) => {
-        if (!cancelled) setStatus(`Tailnet node stopped: ${error}`);
+        if (!cancelled) setStatus(t("ssh.tailnetNodeStopped", { error }));
       },
     }).then(
       (instance) => {
         if (cancelled) return;
-        setStatus(`Connecting to ${hostname}…`);
+        setStatus(t("ssh.connectingTo", { hostname }));
         setIpn(instance);
       },
       (error: unknown) => {
         if (cancelled) return;
-        setStatus(`Failed to join Tailnet: ${error instanceof Error ? error.message : error}`);
+        setStatus(
+          t("ssh.failedToJoin", { error: error instanceof Error ? error.message : String(error) }),
+        );
       },
     );
 
     return () => {
       cancelled = true;
     };
-  }, [node, hostname]);
+  }, [node, hostname, t]);
 
   return (
     <div className="fixed inset-0 flex flex-col bg-black">
@@ -280,8 +284,9 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   return (
     <div className="flex h-screen w-screen items-center justify-center">
       <SSHErrorBoundary
-        title={routeError.title}
-        message={routeError.message}
+        titleKey={routeError.titleKey}
+        messageKey={routeError.messageKey}
+        messageParams={routeError.messageParams}
         anchor={routeError.anchor}
       />
     </div>

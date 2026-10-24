@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 import Dialog, { DialogPanel } from "~/components/dialog";
 import Notice from "~/components/notice";
 import Text from "~/components/text";
@@ -16,18 +18,16 @@ export default function TransferOwnership({
   isOpen,
   setIsOpen,
 }: TransferOwnershipProps) {
+  const { t } = useTranslation();
+
   return (
     <Dialog isOpen={isOpen} onOpenChange={setIsOpen}>
       <DialogPanel variant="destructive">
-        <Title>Transfer ownership to {targetDisplayName}?</Title>
+        <Title>{t("users.transferOwnershipTitle", { name: targetDisplayName })}</Title>
         <Text className="mb-6">
-          This will make {targetDisplayName} the new owner of this Headplane instance. You will be
-          demoted to an Admin. This action cannot be easily undone.
+          {t("users.transferOwnershipDesc", { name: targetDisplayName })}
         </Text>
-        <Notice variant="warning">
-          Only the owner can transfer ownership. After this, you will no longer be able to manage
-          ownership.
-        </Notice>
+        <Notice variant="warning">{t("users.transferOwnershipNotice")}</Notice>
         <input name="action_id" type="hidden" value="transfer_ownership" />
         <input name="headplane_user_id" type="hidden" value={targetHeadplaneUserId} />
       </DialogPanel>

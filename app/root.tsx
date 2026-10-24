@@ -16,6 +16,7 @@ import { ErrorBanner } from "./components/error-banner";
 
 import "@fontsource-variable/inter/opsz.css";
 import "./tailwind.css";
+import "./i18n"; // 初始化 i18n
 import { getColorScheme } from "./utils/color-scheme";
 
 export const meta: MetaFunction = () => [

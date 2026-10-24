@@ -1,5 +1,6 @@
 import { Pencil, Plus, Trash2 } from "lucide-react";
 import type { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 
 import Button from "~/components/button";
 import TableList from "~/components/table-list";
@@ -15,6 +16,7 @@ interface SectionProps {
 }
 
 export function Section({ title, description, isDisabled, onAdd, children }: SectionProps) {
+  const { t } = useTranslation();
   return (
     <section>
       <div className="mb-3 flex items-end justify-between gap-4">
@@ -24,7 +26,7 @@ export function Section({ title, description, isDisabled, onAdd, children }: Sec
         </div>
         <Button className="shrink-0" disabled={isDisabled} onClick={onAdd} type="button">
           <Plus className="h-4 w-4" />
-          Add
+          {t("acls.add")}
         </Button>
       </div>
       <TableList>{children}</TableList>
@@ -43,10 +45,11 @@ interface RowActionsProps {
 }
 
 export function RowActions({ isDisabled, onEdit, onDelete }: RowActionsProps) {
+  const { t } = useTranslation();
   return (
     <div className="flex shrink-0 items-center gap-1">
       <Button
-        aria-label="Edit"
+        aria-label={t("acls.edit")}
         className="rounded-md p-1"
         disabled={isDisabled}
         onClick={onEdit}
@@ -55,7 +58,7 @@ export function RowActions({ isDisabled, onEdit, onDelete }: RowActionsProps) {
         <Pencil className="h-4 w-4" />
       </Button>
       <Button
-        aria-label="Delete"
+        aria-label={t("acls.delete")}
         className="rounded-md p-1"
         disabled={isDisabled}
         onClick={onDelete}
