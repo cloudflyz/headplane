@@ -154,7 +154,7 @@
     "nameValidation": "Use a valid DNS label: lowercase letters, numbers, and hyphens only. It must start and end with a letter or number.",
     "tailscaleDocs": "Tailscale documentation",
     "tagsUndeclared1": "is/are not declared under",
-    "tagsUndeclared2": "里声明，因此没有规则会匹配它们。请在"
+    "tagsUndeclared2": "and no rule will match them. Please declare them in "
   },
   "settings": {
     "title": "Settings",
